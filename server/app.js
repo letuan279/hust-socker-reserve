@@ -6,9 +6,9 @@ let indexRouter = require("./routes/index");
 let apiRouter = require("./routes/api");
 let apiResponse = require("./helpers/apiResponse");
 let cors = require("cors");
-
+let seeed= require("./db/seed");
 // DB connection
-let MONGODB_URL = process.env.MONGODB_URL;
+let MONGODB_URL = "mongodb://localhost:27017/soccer";
 let mongoose = require("mongoose");
 mongoose.connect(MONGODB_URL, { useNewUrlParser: true, useUnifiedTopology: true }).then(() => {
 	//don't show the log when it is test
@@ -52,4 +52,5 @@ app.use((err, req, res) => {
 	}
 });
 
+// seeed()
 module.exports = app;
