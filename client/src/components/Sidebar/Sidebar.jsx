@@ -18,6 +18,11 @@ export default function Sidebar() {
                         icon: <HomeOutlined />,
                         label: <NavLink to='home'>Trang chủ</NavLink>,
                     },
+                    {
+                        key: '1',
+                        icon: <HomeOutlined />,
+                        label: <NavLink to='admin'>Quản lý </NavLink>,
+                    },
                     // {
                     //     key: '2',
                     //     icon: <BarChartOutlined />,
