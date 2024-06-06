@@ -14,7 +14,6 @@ const BookingController = {
     },
     booking: async (req, res) => {
         try {
-            // Check for required fields in the request body
             const { userId, bookingDate, bookingTime, slot } = req.body;
             if (!userId || !bookingDate || !bookingTime || slot == null) {
                 return apiResponse.ErrorResponse(res, "Missing required fields: userId, bookingDate, bookingTime, or slot");
@@ -42,10 +41,8 @@ const BookingController = {
             // Save the booking to the database
             const savedBooking = await newBooking.save();
 
-            // Populate the user field
             // const populatedBooking = await Booking.findById(savedBooking._id).populate("user", "firstName lastName");
 
-            // Return the new booking data in the response
             return apiResponse.successResponseWithData(res, "OK");
             
         } catch (err) {
