@@ -12,11 +12,12 @@ const BookingController = {
             return apiResponse.ErrorResponse(res, err.message);
         }
     },
+    // Add new booking
     booking: async (req, res) => {
         try {
             const { userId, bookingDate, bookingTime, slot } = req.body;
             if (!userId || !bookingDate || !bookingTime || slot == null) {
-                return apiResponse.ErrorResponse(res, "Missing required fields: userId, bookingDate, bookingTime, or slot");
+                return apiResponse.validationErrorWithData(res, "Missing required fields: userId, bookingDate, bookingTime, or slot");
             }
 
             const timeSlotEnum = ["10:00 AM", "12:00 PM", "2:00 PM", "4:00 PM"];
@@ -26,7 +27,7 @@ const BookingController = {
 
             const user = await User.findById(userId);
             if (!user) {
-                return apiResponse.ErrorResponse(res, "User not found");
+                return apiResponse.notFoundResponse(res, "User not found");
             }
 
              // Create a new booking
