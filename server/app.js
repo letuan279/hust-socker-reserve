@@ -10,7 +10,7 @@ let seeed= require("./db/seed");
 // DB connection
 let MONGODB_URL = "mongodb://localhost:27017/soccer";
 let mongoose = require("mongoose");
-mongoose.connect(MONGODB_URL, { useNewUrlParser: true, useUnifiedTopology: true }).then(() => {
+mongoose.connect(MONGODB_URL).then(() => {
 	//don't show the log when it is test
 	if (process.env.NODE_ENV !== "test") {
 		console.log("Connected to %s", MONGODB_URL);
