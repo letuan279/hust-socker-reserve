@@ -3,10 +3,7 @@ const Booking = require("../models/BookingModel");
 const mongoose = require("mongoose");
 require("dotenv").config();
 
-mongoose.connect(process.env.MONGODB_URL, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-});
+mongoose.connect("mongodb://localhost:27017/soccer");
 
 // Define sample user data
 const users = [
@@ -49,7 +46,7 @@ const bookings = [
     },
 ];
 
-async function seedDatabase() {
+module.exports =  async function seedDatabase() {
     try {
         await User.deleteMany({});
         await User.insertMany(users);
@@ -73,5 +70,3 @@ async function seedDatabase() {
         console.error("Error seeding database:", err);
     }
 }
-
-seedDatabase();

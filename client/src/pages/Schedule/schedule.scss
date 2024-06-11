@@ -1,0 +1,37 @@
+a.fc-event:has(.soccer-field-1) {
+  background-color: rgba(0, 128, 0, 1);
+//   margin: 0 5px !important;
+  border-color: rgba(0, 128, 0, 1);
+}
+a.fc-event:has(.soccer-field-2) {
+  background-color: rgba(255, 99, 71, 1);
+
+  border-color: rgba(255, 99, 71, 1);
+}
+a.fc-event:has(.soccer-field-3) {
+  background-color: rgba(128, 0, 128, 1);
+  border-color: rgba(128, 0, 128, 1);
+}
+a.fc-event:has(.soccer-field-4) {
+  background-color: #0082c8;
+  border-color: #0082c8;
+}
+
+a.fc-event:has(.not-avaiable) {
+  background-color: #d9d9d9;
+  border-color: rgba(0, 0, 0, 0.04);
+  color: rgba(0, 0, 0, 0.25) !important;
+  cursor: not-allowed;
+}
+.not-avaiable {
+  color: rgba(0, 0, 0, 0.25) !important;
+}
+
+.demo-app {
+  height: calc(100vh - 170px);
+  overflow: hidden;
+}
+
+.fc-timegrid-slot-lane {
+  background-color: #f5f5f5;
+}
