@@ -1,0 +1,43 @@
+.popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.popup-inner {
+    text-align: center;
+}
+
+.popup-inner img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin-bottom: 20px;
+}
+
+.popup-inner button {
+    background-color: #1890ff;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.popup-inner button:hover {
+    background-color: #40a9ff;
+}
+
+.flat-button {
+    background-color: transparent; /* Màu nền trong suốt */
+    border: none; /* Không có viền */
+    padding: 0rem; /* Điều chỉnh kích thước và padding của button */
+    cursor: pointer; /* Con trỏ chuột biến thành hand khi hover */
+    color: #333; /* Màu chữ */
+    font-size: 0.8rem; /* Kích thước chữ */
+}
