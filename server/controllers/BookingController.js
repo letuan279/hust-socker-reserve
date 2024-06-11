@@ -12,6 +12,19 @@ const BookingController = {
             return apiResponse.ErrorResponse(res, err.message);
         }
     },
+
+    bookingCancel: async (req, res) => {
+        try {
+            let inforBooking = req.body
+            const filter = { _id: inforBooking["_id"], }
+            const updateDoc = { $set: { bookingStatus: "CANCELLED" } }
+            const options = { upsert: true };
+            const result = await Booking.updateOne(filter, updateDoc, options)
+            return apiResponse.successResponseWithData(res, "cancel bookings successfully", result);
+        } catch (err) {
+            return apiResponse.ErrorResponse(res, err.message);
+        }
+      
     // Add new booking
     booking: async (req, res) => {
         try {
