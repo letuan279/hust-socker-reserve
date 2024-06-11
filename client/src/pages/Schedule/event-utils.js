@@ -19,8 +19,8 @@ class TimeService {
         return String(eventGuid++);
     };
 
-    getCurrentWeekTimeSlots(events) {
-        const today = new Date();
+    getCurrentWeekTimeSlots(time,events) {
+        const today = new Date(time);
         const timeSlots = [];
 
         // Tìm ngày đầu tiên của tuần hiện tại (Thứ Hai)
@@ -30,16 +30,16 @@ class TimeService {
         for (let i = 0; i < 7; i++) {
             const currentDay = new Date(firstDayOfWeek.getTime() + i * 24 * 60 * 60 * 1000);
             const dayName = currentDay.toLocaleDateString('vi-VN', { weekday: 'long' });
-
             for (let j = 0; j < 4; j++) {
                 const timeSlot = new Date(currentDay.getFullYear(), currentDay.getMonth(), currentDay.getDate(), 10 + j * 2, 0, 0);
                 for (let j = 1; j < 5; j++) {
+                    if(new Date().getTime() > timeSlot.getTime()) continue
                   timeSlots.push({
                         id: this.createEventId(),
                         start: timeSlot.toISOString(),
                         end: this.convertToEndTime(timeSlot),
                         slot: j,
-                        booingStatus:'NO'
+                        bookingStatus:'NO'
 
                     });
                 }
@@ -66,7 +66,7 @@ class TimeService {
                 start: this.convertToISO(event.bookingDate),
                 end: this.convertToEndTime(event.bookingDate),
                 slot: event.slot,
-                bookStatus:event.bookStatus
+                bookingStatus:event.bookingStatus
                
             };
         });
@@ -81,7 +81,7 @@ export const INITIAL_EVENTS = [
         // title: 'Timed event',
         start: todayStr + 'T12:00:00.000Z',
         end: todayStr + 'T14:00:00.000Z',
-        bookStatus: 'PENDING',
+        bookingStatus: 'PENDING',
         slot: 1,
     },
     {
@@ -89,7 +89,7 @@ export const INITIAL_EVENTS = [
         // title: 'Timed event',
         start: todayStr + 'T12:00:00.000Z',
         end: todayStr + 'T14:00:00.000Z',
-        bookStatus: 'CONFIRMED',
+        bookingStatus: 'CONFIRMED',
         slot: 2,
     },
 ];
@@ -99,14 +99,14 @@ export const api = [
         id: timeService.createEventId(),
         // title: 'Timed event',
         bookingDate: new Date('2024-06-04T03:00:00.000+00:00').toISOString(),
-        bookStatus: 'PENDING',
+        bookingStatus: 'PENDING',
         slot: 1,
     },
     {
         id: timeService.createEventId(),
         // title: 'Timed event',
         bookingDate: new Date('2024-06-03T03:00:00.000+00:00').toISOString(),
-        bookStatus: 'CONFIRMED',
+        bookingStatus: 'CONFIRMED',
         slot: 1,
     },
 ];
