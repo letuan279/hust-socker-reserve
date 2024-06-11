@@ -3,10 +3,7 @@ const Booking = require("../models/BookingModel");
 const mongoose = require("mongoose");
 require("dotenv").config();
 
-mongoose.connect("mongodb://localhost:27017/soccer", {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-});
+mongoose.connect("mongodb://localhost:27017/soccer");
 
 // Define sample user data
 const users = [
