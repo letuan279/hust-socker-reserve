@@ -7,6 +7,7 @@ import "./style.scss";
 
 import Layout from './pages/Layout'
 import Schedule from './pages/Schedule'
+import Admin from './pages/Admin'
 import Information from './pages/Information'
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
                     >
                   
                         <Route index path='/' element={<Schedule />} />
+                        <Route index path='/admin' element={<Admin />} />
                         <Route index path='/information' element={<Information />} />
                         {/* <Route index path='recipe' element={<Recipe />} />
                         <Route index path='fridge' element={<Fridge />} />
