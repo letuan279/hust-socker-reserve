@@ -11,7 +11,6 @@ import TextArea from 'antd/es/input/TextArea';
 import moment from 'moment'; // Thêm dòng này để import moment
 
 const { Option } = Select;
-
 const formItemLayout = {
   labelCol: {
     xs: { span: 24 },
@@ -27,11 +26,29 @@ export default function DemoApp() {
   const [weekendsVisible, setWeekendsVisible] = useState(true);
   const [currentEvents, setCurrentEvents] = useState(timeService.getCurrentWeekTimeSlots(timeService.convertEvent(api)));
   const [form] = Form.useForm();
+  const [bookingList,setBookingList]= useState([])
   const [formValues, setFormValues] = useState();
+  const handleGetBooking= async()=>{
+    const schedule=await ScheduleService.getBooking()
+    console.log("schedule",schedule)
+    setBookingList(schedule)
+    // console.log("schedule",timeService.getCurrentWeekTimeSlots(new Date(),timeService.convertEvent(schedule)))
+    setCurrentEvents(timeService.getCurrentWeekTimeSlots(new Date(),timeService.convertEvent(schedule)))
+
+    // return await ScheduleService.getBooking()
+  }
+
+  const handleChangeDate=(date)=>{
+    setCurrentEvents(timeService.getCurrentWeekTimeSlots(date.start,timeService.convertEvent(bookingList)))
+
+  }
+  useEffect(()=>{
+      handleGetBooking()
+  },[])
   const [open, setOpen] = useState(false);
 
   const onCreate = (values) => {
-    console.log('Received values of form: ', values);
+    // console.log('Received values of form: ', values);
     setFormValues(values);
     setOpen(false);
   };
@@ -84,10 +101,11 @@ export default function DemoApp() {
           headerToolbar={{
             left: 'prev,next today',
             center: 'title',
-            right: 'dayGridMonth,timeGridWeek,timeGridDay'
+            right: 'timeGridWeek,timeGridDay'
           }}
           initialView='timeGridWeek'
           selectMirror={true}
+          nex
           dayMaxEvents={true}
           slotMinTime="10:00:00"
           slotMaxTime="19:00:00"
