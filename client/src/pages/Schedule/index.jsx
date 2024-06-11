@@ -1,13 +1,15 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { formatDate } from '@fullcalendar/core'
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import { INITIAL_EVENTS } from './event-utils'
+import allLocales from '@fullcalendar/core/locales-all'
 import { timeService,api } from './event-utils'
 import './schedule.scss'
 import { Button ,Modal,Form,Input, Select} from 'antd'
+import ScheduleService from '../../services/ScheduleService'
 const {Option}= Select
 const formItemLayout = {
   labelCol: {
@@ -29,12 +31,30 @@ const formItemLayout = {
 };
 export default function DemoApp() {
   const [weekendsVisible, setWeekendsVisible] = useState(true)
-  const [currentEvents, setCurrentEvents] = useState(timeService.getCurrentWeekTimeSlots(timeService.convertEvent(api)))
+  const [currentEvents, setCurrentEvents] = useState([])
   const [form] = Form.useForm();
+  const [bookingList,setBookingList]= useState([])
   const [formValues, setFormValues] = useState();
+  const handleGetBooking= async()=>{
+    const schedule=await ScheduleService.getBooking()
+    console.log("schedule",schedule)
+    setBookingList(schedule)
+    // console.log("schedule",timeService.getCurrentWeekTimeSlots(new Date(),timeService.convertEvent(schedule)))
+    setCurrentEvents(timeService.getCurrentWeekTimeSlots(new Date(),timeService.convertEvent(schedule)))
+
+    // return await ScheduleService.getBooking()
+  }
+
+  const handleChangeDate=(date)=>{
+    setCurrentEvents(timeService.getCurrentWeekTimeSlots(date.start,timeService.convertEvent(bookingList)))
+
+  }
+  useEffect(()=>{
+      handleGetBooking()
+  },[])
   const [open, setOpen] = useState(false);
   const onCreate = (values) => {
-    console.log('Received values of form: ', values);
+    // console.log('Received values of form: ', values);
     setFormValues(values);
     setOpen(false);
   };
@@ -47,6 +67,7 @@ export default function DemoApp() {
   }
 
   function handleDateSelect(selectInfo) {
+    console("ts")
     let title = prompt('Please enter a new title for your event')
     let calendarApi = selectInfo.view.calendar
 
@@ -64,8 +85,9 @@ export default function DemoApp() {
 
 
   function handleEventClick(clickInfo) {
-    console.log(clickInfo.view)
-    if(clickInfo.event.extendedProps.booingStatus!='NO'){
+    // console.log(clickInfo.view)
+    console.log("hello")
+    if(clickInfo.event.extendedProps.bookingStatus!='NO'){
       return
     }
     handleOpen(clickInfo);
@@ -90,25 +112,28 @@ export default function DemoApp() {
           headerToolbar={{
             left: 'prev,next today',
             center: 'title',
-            right: 'dayGridMonth,timeGridWeek,timeGridDay'
+            right: 'timeGridWeek,timeGridDay'
           }}
           initialView='timeGridWeek'
           // editable={true}
           // selectable={true}
+          locales={allLocales} locale={'vi'}
           selectMirror={true}
+          nex
           dayMaxEvents={true}
           slotMinTime="10:00:00"
+          slotMaxTime="18:00:00"
           // slotMaxTime="18:00:00"
           weekends={weekendsVisible}
-          initialEvents={currentEvents} // alternatively, use the `events` setting to fetch from a feed
+          events={currentEvents} // alternatively, use the `events` setting to fetch from a feed
           select={handleDateSelect}
           eventContent={renderEventContent} // custom render function
           eventClick={handleEventClick}
           eventDisplay="block"
           // timeFormat='H(:mm)'
-          
+          datesSet={handleChangeDate}
           allDaySlot={false}
-          eventsSet={handleEvents} // called after events are initialized/added/changed/removed
+          // eventsSet={} // called after events are initialized/added/changed/removed
           eventAdd={function(e){ console.log(e,'test')}}
           /* you can update a remote database when these fire:
           eventChange={function(){}}
@@ -187,48 +212,15 @@ export default function DemoApp() {
 }
 
 function renderEventContent(eventInfo) {
-    console.log('render event content',eventInfo)
+    // console.log('render event content',eventInfo)
   return (
     
-    <div className={`soccer-field-${eventInfo.event.extendedProps.slot} ${eventInfo.event.extendedProps.booingStatus!='NO'? 'not-avaiable':''}`}>
-      <b>{eventInfo.timeText}</b>
-      <i> Sân{eventInfo.event.extendedProps.slot}</i>
+    <div className={`soccer-field-${eventInfo.event.extendedProps.slot} ${eventInfo.event.extendedProps.bookingStatus!='NO'? 'not-avaiable':''}`}>
+      <i> Sân {eventInfo.event.extendedProps.slot}</i>
     </div>
   )
 }
 
-function Sidebar({ weekendsVisible, handleWeekendsToggle, currentEvents }) {
-  return (
-    <div className='demo-app-sidebar'>
-      <div className='demo-app-sidebar-section'>
-        <h2>Instructions</h2>
-        <ul>
-          <li>Select dates and you will be prompted to create a new event</li>
-          <li>Drag, drop, and resize events</li>
-          <li>Click an event to delete it</li>
-        </ul>
-      </div>
-      <div className='demo-app-sidebar-section'>
-        <label>
-          <input
-            type='checkbox'
-            checked={weekendsVisible}
-            onChange={handleWeekendsToggle}
-          ></input>
-          toggle weekends
-        </label>
-      </div>
-      <div className='demo-app-sidebar-section'>
-        <h2>All Events ({currentEvents.length})</h2>
-        <ul>
-          {currentEvents.map((event) => (
-            <SidebarEvent key={event.id} event={event} />
-          ))}
-        </ul>
-      </div>
-    </div>
-  )
-}
 
 function SidebarEvent({ event }) {
   return (
