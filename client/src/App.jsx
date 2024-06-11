@@ -5,17 +5,26 @@ import "./App.css";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import "./style.scss";
 
-import Layout from "./pages/Layout";
-import Schedule from "./pages/Schedule";
+import Layout from './pages/Layout'
+import Schedule from './pages/Schedule'
+import Information from './pages/Information'
+
 function App() {
     const [count, setCount] = useState(0);
 
     return (
         <BrowserRouter>
             <Routes>
-                <Route path="/">
-                    <Route path="/" element={<Layout />}>
-                        <Route index element={<Schedule />} />
+                <Route path='/'>
+                    <Route
+                        path='/'
+                        element={
+                                <Layout />
+                        }
+                    >
+                  
+                        <Route index path='/' element={<Schedule />} />
+                        <Route index path='/information' element={<Information />} />
                         {/* <Route index path='recipe' element={<Recipe />} />
                         <Route index path='fridge' element={<Fridge />} />
                         <Route index path='statistic' element={<Statistic />} />

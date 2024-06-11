@@ -38,7 +38,7 @@ export default function Index() {
                 <Sider
                     style={{
                         overflow: 'auto',
-                        // height: '100vh',
+                        // height: 'calc( 100% - 64px)',
                         // position: 'fixed',
                         left: 0,
                         // top: 0,
@@ -57,6 +57,7 @@ export default function Index() {
                         margin: '24px 16px',
                         padding: 24,
                         background: colorBgContainer,
+                        // height:'calc( 100vh - 102px )'
                     }}
                 >
                     <Outlet></Outlet>

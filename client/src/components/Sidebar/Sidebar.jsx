@@ -32,11 +32,11 @@ export default function Sidebar() {
                             <StadiumManager>Thông tin chủ sân</StadiumManager>
                         ),
                     },
-                    // {
-                    //     key: '2',
-                    //     icon: <BarChartOutlined />,
-                    //     label: <NavLink to='statistic'>統計</NavLink>,
-                    // },
+                    {
+                        key: '2',
+                        icon: <UserOutlined />,
+                        label: <NavLink to='information'>Thông tin sân</NavLink>,
+                    },
                     // {
                     //     key: '3',
                     //     icon: <TiBook fontSize={24} />,
