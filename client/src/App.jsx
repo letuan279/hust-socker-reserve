@@ -7,6 +7,8 @@ import './style.scss';
 
 import Layout from './pages/Layout'
 import Schedule from './pages/Schedule'
+import Information from './pages/Information'
+
 function App() {
   const [count, setCount] = useState(0)
 
@@ -22,6 +24,8 @@ function App() {
                     >
                   
                         <Route index path='/' element={<Schedule />} />
+                        <Route index path='/information' element={<Information />} />
+
                         {/* <Route index path='recipe' element={<Recipe />} />
                         <Route index path='fridge' element={<Fridge />} />
                         <Route index path='statistic' element={<Statistic />} />
