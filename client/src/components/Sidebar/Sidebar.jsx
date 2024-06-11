@@ -1,22 +1,41 @@
-import React from 'react';
-import { BarChartOutlined, HomeOutlined, DatabaseOutlined, UserOutlined, VideoCameraOutlined } from '@ant-design/icons';
-import { Image, Menu, Button, theme } from 'antd';
-import { GrStorage } from 'react-icons/gr';
-import { TiBook } from 'react-icons/ti';
-import { NavLink } from 'react-router-dom';
+import React, { useState } from "react";
+import {
+    BarChartOutlined,
+    HomeOutlined,
+    DatabaseOutlined,
+    UserOutlined,
+    VideoCameraOutlined,
+} from "@ant-design/icons";
+import { Image, Menu, Button, theme } from "antd";
+import { GrStorage } from "react-icons/gr";
+import { TiBook } from "react-icons/ti";
+import { NavLink } from "react-router-dom";
 import { MdManageAccounts } from "react-icons/md";
+import StadiumManager from "../../pages/StadiumManager";
+
 export default function Sidebar() {
     return (
         <div>
-
             <Menu
-                mode='inline'
-                defaultSelectedKeys={['1']}
+                mode="inline"
+                defaultSelectedKeys={["1"]}
                 items={[
                     {
-                        key: '1',
+                        key: "1",
                         icon: <HomeOutlined />,
-                        label: <NavLink to='home'>Trang chủ</NavLink>,
+                        label: <NavLink to="home">Trang chủ</NavLink>,
+                    },
+                    {
+                        key: "2",
+                        icon: <MdManageAccounts fontSize={24} />,
+                        label: (
+                            <StadiumManager>Thông tin chủ sân</StadiumManager>
+                        ),
+                    },
+                    {
+                        key: '2',
+                        icon: <UserOutlined />,
+                        label: <NavLink to='information'>Thông tin sân</NavLink>,
                     },
                     {
                         key: '1',
@@ -33,7 +52,7 @@ export default function Sidebar() {
                     //     icon: <TiBook fontSize={24} />,
                     //     label: <NavLink to='recipe'>レシピ</NavLink>,
                     // },
-                  
+
                     // {
                     //     key: '4',
                     //     icon: <GrStorage />,
@@ -51,7 +70,7 @@ export default function Sidebar() {
                     //             key: '4-3',
                     //             label: <NavLink to='fridge/history'>歴史</NavLink>,
                     //         },
-                           
+
                     //     ],
                     // },
                     // {
