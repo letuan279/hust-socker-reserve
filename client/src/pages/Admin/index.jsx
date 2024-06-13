@@ -28,7 +28,6 @@ const formItemLayout = {
   },
 };
 const dataSource = [
-  { key: '1', time_dat_san: '2024-06-01', khung_gio_dat_san: '18:00 - 19:00', bookingStatus: 'Confirmed', slot: 'Vị trí 1', user: 'John Doe' },
   { key: '2', time_dat_san: '2024-06-02', khung_gio_dat_san: '19:00 - 20:00', bookingStatus: 'Pending', slot: 'Vị trí 1', user: 'Jane Smith' },
   { key: '3', time_dat_san: '2024-06-03', khung_gio_dat_san: '20:00 - 21:00', bookingStatus: 'Cancelled', slot: 'Vị trí 3', user: 'Alice Johnson' },
   { key: '4', time_dat_san: '2024-06-04', khung_gio_dat_san: '21:00 - 22:00', bookingStatus: 'Confirmed', slot: 'Vị trí 4', user: 'Bob Brown' },
@@ -47,6 +46,8 @@ const dataSource = [
   { key: '17', time_dat_san: '2024-06-17', khung_gio_dat_san: '18:00 - 19:00', bookingStatus: 'Pending', slot: 'Vị trí 17', user: 'Oscar Reed' },
   { key: '18', time_dat_san: '2024-06-18', khung_gio_dat_san: '19:00 - 20:00', bookingStatus: 'Confirmed', slot: 'Vị trí 18', user: 'Paul Clark' },
   { key: '19', time_dat_san: '2024-06-19', khung_gio_dat_san: '20:00 - 21:00', bookingStatus: 'Cancelled', slot: 'Vị trí 19', user: 'Quincy Adams' },
+  { key: '20', time_dat_san: '2024-06-20', khung_gio_dat_san: '21:00 - 22:00', bookingStatus: 'Confirmed', slot: 'Vị trí 20', user: 'Rachel Wright' },
+  { key: '20', time_dat_san: '2024-06-20', khung_gio_dat_san: '21:00 - 22:00', bookingStatus: 'Confirmed', slot: 'Vị trí 20', user: 'Rachel Wright' },
   { key: '20', time_dat_san: '2024-06-20', khung_gio_dat_san: '21:00 - 22:00', bookingStatus: 'Confirmed', slot: 'Vị trí 20', user: 'Rachel Wright' },
 ];
 
