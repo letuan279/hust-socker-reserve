@@ -6,9 +6,9 @@ let indexRouter = require("./routes/index");
 let apiRouter = require("./routes/api");
 let apiResponse = require("./helpers/apiResponse");
 let cors = require("cors");
-let seeed= require("./db/seed");
+let seeed = require("./db/seed");
 // DB connection
-let MONGODB_URL = "mongodb://localhost:27017/soccer";
+let MONGODB_URL = "mongodb://127.0.0.1:27017/soccer";
 let mongoose = require("mongoose");
 mongoose.connect(MONGODB_URL).then(() => {
 	//don't show the log when it is test

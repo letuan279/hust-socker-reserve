@@ -3,7 +3,7 @@ const Booking = require("../models/BookingModel");
 const mongoose = require("mongoose");
 require("dotenv").config();
 
-mongoose.connect("mongodb://localhost:27017/soccer");
+mongoose.connect("mongodb://127.0.0.1:27017/soccer");
 
 // Define sample user data
 const users = [
@@ -46,7 +46,7 @@ const bookings = [
     },
 ];
 
-module.exports =  async function seedDatabase() {
+module.exports = async function seedDatabase() {
     try {
         await User.deleteMany({});
         await User.insertMany(users);
