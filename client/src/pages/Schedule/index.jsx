@@ -26,31 +26,59 @@ export default function DemoApp() {
   const [weekendsVisible, setWeekendsVisible] = useState(true);
   const [currentEvents, setCurrentEvents] = useState([]);
   const [form] = Form.useForm();
-  const [bookingList,setBookingList]= useState([])
+  const [bookingList, setBookingList] = useState([])
   const [formValues, setFormValues] = useState();
-  const handleGetBooking= async()=>{
-    let schedule=await ScheduleService.getBooking()
-    schedule=schedule.filter(event=>event.bookingStatus!="CANCELLED")
-    console.log("schedule",schedule)
+  const handleGetBooking = async () => {
+    let schedule = await ScheduleService.getBooking()
+    schedule = schedule.filter(event => event.bookingStatus != "CANCELLED")
+    console.log("schedule", schedule)
     setBookingList(schedule)
     // console.log("schedule",timeService.getCurrentWeekTimeSlots(new Date(),timeService.convertEvent(schedule)))
-    setCurrentEvents(timeService.getCurrentWeekTimeSlots(new Date(),timeService.convertEvent(schedule)))
+    setCurrentEvents(timeService.getCurrentWeekTimeSlots(new Date(), timeService.convertEvent(schedule)))
 
     // return await ScheduleService.getBooking()
   }
 
-  const handleChangeDate=(date)=>{
-    setCurrentEvents(timeService.getCurrentWeekTimeSlots(date.start,timeService.convertEvent(bookingList)))
+  const handleChangeDate = (date) => {
+    setCurrentEvents(timeService.getCurrentWeekTimeSlots(date.start, timeService.convertEvent(bookingList)))
 
   }
-  useEffect(()=>{
-      handleGetBooking()
-  },[])
+  useEffect(() => {
+    handleGetBooking()
+  }, [])
   const [open, setOpen] = useState(false);
+
+  const handleOk = async () => {
+    try {
+      const values = await form.validateFields();
+      const bookingDate = values.bookingDate.format('YYYY-MM-DD');
+      const bookingTime = values.bookingTime.format('hh:mm A');
+
+      const response = await axios.post('/booking/add', {
+        userId: values.userId,
+        bookingDate,
+        bookingTime,
+        slot: values.slot,
+      });
+
+      if (response.data.success) {
+        // Handle successful booking
+        console.log('Booking successful');
+        setOpen(false);
+      } else {
+        // Handle booking error
+        console.error('Booking failed', response.data.message);
+      }
+    } catch (error) {
+      console.error('Validation failed:', error);
+    }
+  };
+
 
   const onCreate = (values) => {
     // console.log('Received values of form: ', values);
     setFormValues(values);
+    handleOk();
     setOpen(false);
   };
 
@@ -112,13 +140,13 @@ export default function DemoApp() {
           slotMaxTime="19:00:00"
           weekends={weekendsVisible}
           select={handleDateSelect}
-          events={currentEvents} 
+          events={currentEvents}
           eventContent={renderEventContent}
           eventClick={handleEventClick}
           eventDisplay="block"
           allDaySlot={false}
           // eventsSet={ }
-          eventAdd={function(e){ console.log(e, 'test')}}
+          eventAdd={function (e) { console.log(e, 'test') }}
         />
       </div>
 
@@ -189,12 +217,12 @@ export default function DemoApp() {
 
 function renderEventContent(eventInfo) {
   // console.log('render event content',eventInfo)
-return (
-  
-  <div className={`soccer-field-${eventInfo.event.extendedProps.slot} ${eventInfo.event.extendedProps.bookingStatus!='NO'? 'not-avaiable':''}`}>
-    <i> Sân {eventInfo.event.extendedProps.slot}</i>
-  </div>
-)
+  return (
+
+    <div className={`soccer-field-${eventInfo.event.extendedProps.slot} ${eventInfo.event.extendedProps.bookingStatus != 'NO' ? 'not-avaiable' : ''}`}>
+      <i> Sân {eventInfo.event.extendedProps.slot}</i>
+    </div>
+  )
 }
 
 
