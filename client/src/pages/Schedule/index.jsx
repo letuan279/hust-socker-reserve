@@ -76,7 +76,7 @@ export default function DemoApp() {
 
   function handleEventClick(clickInfo) {
     console.log(clickInfo.view.getCurrentData());
-    if (clickInfo.event.extendedProps.booingStatus !== 'NO') {
+    if (clickInfo.event.extendedProps.bookingStatus !== 'NO') {
       return;
     }
     const startDate = moment(clickInfo.event.start);
@@ -106,12 +106,12 @@ export default function DemoApp() {
           }}
           initialView='timeGridWeek'
           selectMirror={true}
-          nex
           dayMaxEvents={true}
           slotMinTime="10:00:00"
           slotMaxTime="19:00:00"
           weekends={weekendsVisible}
           select={handleDateSelect}
+          datesSet={handleChangeDate}
           events={currentEvents} 
           eventContent={renderEventContent}
           eventClick={handleEventClick}
