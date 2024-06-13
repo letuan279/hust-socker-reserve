@@ -1,6 +1,7 @@
 const Booking = require("../models/BookingModel");
 const apiResponse = require("../helpers/apiResponse");
 const User = require("../models/UserModel");
+const enums = require("../helpers/enums");
 
 const BookingController = {
     // Booking List
@@ -17,7 +18,7 @@ const BookingController = {
         try {
             let inforBooking = req.body
             const filter = { _id: inforBooking["_id"], }
-            const updateDoc = { $set: { bookingStatus: "CANCELLED" } }
+            const updateDoc = { $set: { bookingStatus: enums.BOOKING.CANCELLED } }
             const options = { upsert: true };
             const result = await Booking.updateOne(filter, updateDoc, options)
             return apiResponse.successResponseWithData(res, "cancel bookings successfully", result);
@@ -25,7 +26,7 @@ const BookingController = {
             return apiResponse.ErrorResponse(res, err.message);
         }
     },
-      
+
     // Add new booking
     booking: async (req, res) => {
         try {
@@ -44,12 +45,12 @@ const BookingController = {
                 return apiResponse.notFoundResponse(res, "User not found");
             }
 
-             // Create a new booking
-             const newBooking = new Booking({
+            // Create a new booking
+            const newBooking = new Booking({
                 user: userId,
                 bookingDate,
                 bookingTime,
-                bookingStatus: "PENDING", 
+                bookingStatus: enums.BOOKING.PENDING,
                 slot
             });
 
@@ -59,7 +60,7 @@ const BookingController = {
             // const populatedBooking = await Booking.findById(savedBooking._id).populate("user", "firstName lastName");
 
             return apiResponse.successResponseWithData(res, "OK");
-            
+
         } catch (err) {
             return apiResponse.ErrorResponse(res, err.message);
         }
