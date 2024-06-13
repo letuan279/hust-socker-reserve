@@ -7,7 +7,7 @@ var informationRouter = require("./information")
 var app = express();
 
 app.use("/auth/", authRouter);
-app.use("/booking/", authMiddleware.authenticate, bookRouter);
+app.use("/booking/", bookRouter);
 app.use("/information", informationRouter)
 
 module.exports = app;

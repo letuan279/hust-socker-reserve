@@ -9,7 +9,7 @@ import './schedule.scss';
 import { Button, Modal, Form, Input, Select, DatePicker } from 'antd';
 import TextArea from 'antd/es/input/TextArea';
 import moment from 'moment'; // Thêm dòng này để import moment
-
+import ScheduleService from '../../services/ScheduleService'
 const { Option } = Select;
 const formItemLayout = {
   labelCol: {
@@ -24,12 +24,13 @@ const formItemLayout = {
 
 export default function DemoApp() {
   const [weekendsVisible, setWeekendsVisible] = useState(true);
-  const [currentEvents, setCurrentEvents] = useState(timeService.getCurrentWeekTimeSlots(timeService.convertEvent(api)));
+  const [currentEvents, setCurrentEvents] = useState([]);
   const [form] = Form.useForm();
   const [bookingList,setBookingList]= useState([])
   const [formValues, setFormValues] = useState();
   const handleGetBooking= async()=>{
-    const schedule=await ScheduleService.getBooking()
+    let schedule=await ScheduleService.getBooking()
+    schedule=schedule.filter(event=>event.bookingStatus!="CANCELLED")
     console.log("schedule",schedule)
     setBookingList(schedule)
     // console.log("schedule",timeService.getCurrentWeekTimeSlots(new Date(),timeService.convertEvent(schedule)))
@@ -110,13 +111,13 @@ export default function DemoApp() {
           slotMinTime="10:00:00"
           slotMaxTime="19:00:00"
           weekends={weekendsVisible}
-          initialEvents={currentEvents}
           select={handleDateSelect}
+          events={currentEvents} 
           eventContent={renderEventContent}
           eventClick={handleEventClick}
           eventDisplay="block"
           allDaySlot={false}
-          eventsSet={handleEvents}
+          // eventsSet={ }
           eventAdd={function(e){ console.log(e, 'test')}}
         />
       </div>
@@ -187,14 +188,16 @@ export default function DemoApp() {
 }
 
 function renderEventContent(eventInfo) {
-  console.log('render event content', eventInfo);
-  return (
-    <div className={`soccer-field-${eventInfo.event.extendedProps.slot} ${eventInfo.event.extendedProps.booingStatus !== 'NO' ? 'not-avaiable' : ''}`}>
-      <b>{eventInfo.timeText}</b>
-      <i> Sân{eventInfo.event.extendedProps.slot}</i>
-    </div>
-  );
+  // console.log('render event content',eventInfo)
+return (
+  
+  <div className={`soccer-field-${eventInfo.event.extendedProps.slot} ${eventInfo.event.extendedProps.bookingStatus!='NO'? 'not-avaiable':''}`}>
+    <i> Sân {eventInfo.event.extendedProps.slot}</i>
+  </div>
+)
 }
+
+
 
 function Sidebar({ weekendsVisible, handleWeekendsToggle, currentEvents }) {
   return (

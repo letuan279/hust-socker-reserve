@@ -33,12 +33,12 @@ export default function Sidebar() {
                         ),
                     },
                     {
-                        key: '2',
+                        key: '3',
                         icon: <UserOutlined />,
                         label: <NavLink to='information'>Thông tin sân</NavLink>,
                     },
                     {
-                        key: '1',
+                        key: '4',
                         icon: <HomeOutlined />,
                         label: <NavLink to='admin'>Quản lý </NavLink>,
                     },
