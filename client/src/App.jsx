@@ -24,7 +24,7 @@ function App() {
                         }
                     >
                   
-                        <Route index path='/' element={<Schedule />} />
+                        <Route index path='/home' element={<Schedule />} />
                         <Route index path='/admin' element={<Admin />} />
                         <Route index path='/information' element={<Information />} />
                         {/* <Route index path='recipe' element={<Recipe />} />

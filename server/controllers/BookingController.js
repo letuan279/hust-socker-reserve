@@ -24,6 +24,7 @@ const BookingController = {
         } catch (err) {
             return apiResponse.ErrorResponse(res, err.message);
         }
+    },
       
     // Add new booking
     booking: async (req, res) => {
@@ -63,6 +64,6 @@ const BookingController = {
             return apiResponse.ErrorResponse(res, err.message);
         }
     }
-};
+}
 
 module.exports = BookingController;
