@@ -1,7 +1,9 @@
 
 .header {
     padding-top: 12px;
-    background: #fff;
+    /* background: #fff; */
+    background-color: #fbab7e;
+    background-image: linear-gradient(62deg, #fbab7e 0%, #f7ce68 100%);
 }
 
 .content {
@@ -40,6 +42,6 @@
 }
 
 .ant-menu-item-selected {
-    background-color: #4f6f52 !important;
+    background-color: #fbab7e !important;
     color: #fff !important; 
 }

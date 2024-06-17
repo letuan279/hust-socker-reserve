@@ -1,6 +1,5 @@
 import { useState, useLayoutEffect } from 'react';
 import { Flex, Menu } from 'antd';
-import { FaLeaf } from 'react-icons/fa6';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 const Sidebar = () => {
@@ -28,7 +27,7 @@ const Sidebar = () => {
 
     return (
         <>
-            <Flex align='center' justify='center'>
+            <Flex className='mt-[-16px]' align='center' justify='center'>
                 <div className='logo'>
                 ⚽
                 </div>

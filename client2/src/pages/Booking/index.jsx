@@ -19,6 +19,8 @@ const Booking = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalLoading, setModalLoading] = useState(false);
 
+  const [weekendDataLoading, setWeekendDataLoading] = useState(false);
+
   const timeSlotEnum = [
     "06_08",
     "08_10",
@@ -41,6 +43,11 @@ const Booking = () => {
 
   const fetchEvents = async (start, end) => {
     try {
+      setWeekendDataLoading(true);
+
+      // Simulate loading
+      await new Promise(r => setTimeout(r, 2000));
+
       const response = await fetch(
         `${API_URL}/api/bookings?start=` + start + "&end=" + end
       );
@@ -84,6 +91,7 @@ const Booking = () => {
       newEvents = newEvents.filter((event) => event.userId === userId || event.status === "FULL");
   
       setEvents(newEvents);
+      setWeekendDataLoading(false);
     } catch (error) {
       message.error("Đã xảy ra lỗi gì đó, vui lòng load lại trang!");
     }
@@ -357,6 +365,17 @@ const Booking = () => {
           </Form.Item>
         </Form>
       </Modal>
+
+      <div>
+      {weekendDataLoading ? (
+        <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex flex-col justify-center items-center z-[1000]">
+          <img src="loading.gif" width={300} height={300}></img>
+          <span className="text-white text-4xl font-bold mt-[-50px] ml-5">Đang tải...</span>
+        </div>
+      ) : (
+        <></>
+      )}
+    </div>
     </div>
   );
 };

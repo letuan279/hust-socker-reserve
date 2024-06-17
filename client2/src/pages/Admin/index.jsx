@@ -170,7 +170,7 @@ function AdminBooking() {
           <Card
             bordered={false}
             className="criclebox tablespace mb-24"
-            title="Danh sách booking"
+            title="Danh sách đặt sân"
           >
             <Table
               pagination={{
