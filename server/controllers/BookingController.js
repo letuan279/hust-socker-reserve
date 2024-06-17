@@ -2,13 +2,66 @@ const Booking = require("../models/BookingModel");
 const apiResponse = require("../helpers/apiResponse");
 const User = require("../models/UserModel");
 const enums = require("../helpers/enums");
+require("dotenv").config();
 
 const BookingController = {
-    // Booking List
+    // Booking List in week
     bookingList: async (req, res) => {
         try {
-            const bookings = await Booking.find().populate("user", "firstName lastName");
+            const { start, end } = req.query;
+            const bookings = await Booking.find({
+                date: {
+                    $gte: new Date(start),
+                    $lte: new Date(end)
+                }
+            }).populate("user", "name phone email");
             return apiResponse.successResponseWithData(res, "get bookings successfully", bookings);
+        } catch (err) {
+            return apiResponse.ErrorResponse(res, err.message);
+        }
+    },
+
+    // Add new booking
+    bookingAdd: async (req, res) => {
+        const session = await Booking.startSession();
+        session.startTransaction();
+
+        try {
+            let inforBooking = req.body
+            // Validate booking
+            if (!inforBooking.date || !inforBooking.timeSlot || !inforBooking.type) {
+                return apiResponse.validationErrorWithData(res, "date, timeSlot, type are required", {});
+            }
+
+            // Check duplicate booking (date, timeSlot, type, user)
+            const oldBooking = await Booking.findOne({
+                date: inforBooking.date,
+                timeSlot: inforBooking.timeSlot,
+                type: inforBooking.type,
+                user: process.env.USER_ID
+            });
+
+            if (oldBooking) {
+                return apiResponse.validationErrorWithData(res, "Đã đặt sân này khung giờ này trước rổi, reload lại mà xem", {});
+            }
+
+            // Dựa vào Booking model để tạo mới một booking
+            const booking = new Booking({
+                date: inforBooking.date,
+                timeSlot: inforBooking.timeSlot,
+                bookingStatus: "PENDING",
+                type: inforBooking.type,
+                note: inforBooking.note,
+                user: process.env.USER_ID
+            });
+
+            // Save booking
+            const result = await booking.save({ session });
+            await session.commitTransaction();
+            session.endSession();
+
+            return apiResponse.successResponseWithData(res, "add booking successfully", result);
+
         } catch (err) {
             return apiResponse.ErrorResponse(res, err.message);
         }
@@ -27,40 +80,35 @@ const BookingController = {
         }
     },
 
-    // Add new booking
-    booking: async (req, res) => {
+    ///////////// For Admin
+    bookingAll: async (req, res) => {
         try {
-            const { userId, bookingDate, bookingTime, slot } = req.body;
-            if (!userId || !bookingDate || !bookingTime || slot == null) {
-                return apiResponse.validationErrorWithData(res, "Missing required fields: userId, bookingDate, bookingTime, or slot");
-            }
+            const bookings = await Booking.find().populate("user", "name phone email");
+            return apiResponse.successResponseWithData(res, "get bookings successfully", bookings);
+        } catch (err) {
+            return apiResponse.ErrorResponse(res, err.message);
+        }
+    },
 
-            const timeSlotEnum = ["10:00 AM", "12:00 PM", "2:00 PM", "4:00 PM"];
-            if (!timeSlotEnum.includes(bookingTime)) {
-                return apiResponse.ErrorResponse(res, "Invalid booking time");
-            }
+    bookingApprove: async (req, res) => {
+        try {
+            const { id } = req.params;
+            const booking = await Booking.findById(id);
+            booking.bookingStatus = "CONFIRMED";
+            const result = await booking.save();
+            return apiResponse.successResponseWithData(res, "approve bookings successfully", result);
+        } catch (err) {
+            return apiResponse.ErrorResponse(res, err.message);
+        }
+    },
 
-            const user = await User.findById(userId);
-            if (!user) {
-                return apiResponse.notFoundResponse(res, "User not found");
-            }
-
-            // Create a new booking
-            const newBooking = new Booking({
-                user: userId,
-                bookingDate,
-                bookingTime,
-                bookingStatus: enums.BOOKING.PENDING,
-                slot
-            });
-
-            // Save the booking to the database
-            const savedBooking = await newBooking.save();
-
-            // const populatedBooking = await Booking.findById(savedBooking._id).populate("user", "firstName lastName");
-
-            return apiResponse.successResponseWithData(res, "OK");
-
+    bookingCancel: async (req, res) => {
+        try {
+            const { id } = req.params;
+            const booking = await Booking.findById(id);
+            booking.bookingStatus = "CANCELLED";
+            const result = await booking.save();
+            return apiResponse.successResponseWithData(res, "cancel bookings successfully", result);
         } catch (err) {
             return apiResponse.ErrorResponse(res, err.message);
         }

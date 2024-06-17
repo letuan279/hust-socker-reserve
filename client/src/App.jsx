@@ -1,43 +1,20 @@
-import { useState } from "react";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import "./style.scss";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
-import Layout from './pages/Layout'
-import Schedule from './pages/Schedule'
-import Admin from './pages/Admin'
-import Information from './pages/Information'
+import "./App.css";
+
+import Landing from './pages/Landing'
 
 function App() {
-    const [count, setCount] = useState(0);
 
     return (
-        <BrowserRouter>
+        <Router>
             <Routes>
-                <Route path='/'>
-                    <Route
-                        path='/'
-                        element={
-                                <Layout />
-                        }
-                    >
-                  
-                        <Route index path='/home' element={<Schedule />} />
-                        <Route index path='/admin' element={<Admin />} />
-                        <Route index path='/information' element={<Information />} />
-                        {/* <Route index path='recipe' element={<Recipe />} />
-                        <Route index path='fridge' element={<Fridge />} />
-                        <Route index path='statistic' element={<Statistic />} />
-                        <Route index path='fridge/ingredients' element={<ImportIngredients />} />
-                        <Route index path='fridge/category' element={<Category />} />
-                        <Route index path='fridge/history' element={<History />} />
-                        <Route index path='account-manage' element={<Account />} /> */}
-                    </Route>
-                </Route>
+                <Route path="/" element={<Landing />} />
             </Routes>
-        </BrowserRouter>
+        </Router>
     );
 }
 

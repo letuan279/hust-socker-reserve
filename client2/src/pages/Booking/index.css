@@ -1,0 +1,58 @@
+.ant-modal-title {
+    font-size: 24px !important;
+    text-align: center;
+}
+
+.fc-view-harness {
+  border: 10px solid #ccc;
+  border-radius: 10px;
+  background-color: #f0f0f0;
+}
+.fc-day-grid-event.past-date {
+  background-color: #e0e0e0;
+  color: #a0a0a0;
+}
+
+.hovered-time-slot {
+  background-color: #f0f0f0;
+  cursor: pointer;
+}
+
+.fc-timegrid-slot {
+  line-height: 400%;
+}
+
+.cell-hover {
+  position: relative;
+}
+
+.cell-hover:hover {
+    background-color: #d9f99d;
+    cursor: pointer;
+}
+
+.cell-hover:hover::after {
+  content: "Đặt ngay!⚽";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #4d7c0f;
+  border-radius: 50%;
+  font-size: 14px;
+  font-weight: bold;
+  z-index: 1;
+  animation: bounce 0.5s ease-in-out infinite;
+}
+
+@keyframes bounce {
+  0% {
+    transform: translate(-50%, -50%);
+  }
+  50% {
+    transform: translate(-50%, -55%);
+  }
+  100% {
+    transform: translate(-50%, -50%);
+  }
+}

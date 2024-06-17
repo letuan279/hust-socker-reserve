@@ -2,11 +2,12 @@ var mongoose = require("mongoose");
 
 var Schema = mongoose.Schema;
 
-var timeSlotEnum = ["10:00 AM", "12:00 PM", "2:00 PM", "4:00 PM"];
+var timeSlotEnum = ["06_08", "08_10", "10_12", "12_14", "14_16", "16_18", "18_20"];
+var typeEnum = ["Sân 1", "Sân 2", "Sân 3", "Sân 4"];
 
 var BookingSchema = new Schema({
-	bookingDate: { type: Date, required: true },
-	bookingTime: {
+	date: { type: Date, required: true },
+	timeSlot: {
 		type: String,
 		required: true,
 		enum: timeSlotEnum
@@ -16,10 +17,12 @@ var BookingSchema = new Schema({
 		default: "PENDING", // PENDING, CONFIRMED, CANCELLED
 		required: true
 	},
-	slot: {
-		type: Number, // 1, 2, 3, 4
-		required: true
+	type: {
+		type: String,
+		required: true,
+		enum: typeEnum
 	},
+	note: { type: String },
 	user: { type: Schema.ObjectId, ref: "User", required: true },
 }, { timestamps: true });
 
